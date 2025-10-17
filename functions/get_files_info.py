@@ -1,7 +1,5 @@
 import os
-from google import genai
 from google.genai import types
-from dotenv import load_dotenv
 
 schema_get_files_info = types.FunctionDeclaration(
     name="get_files_info",
