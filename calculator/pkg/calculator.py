@@ -1,5 +1,7 @@
 # calculator.py
 
+import re
+
 class Calculator:
     def __init__(self):
         self.operators = {
@@ -18,7 +20,9 @@ class Calculator:
     def evaluate(self, expression):
         if not expression or expression.isspace():
             return None
-        tokens = expression.strip().split()
+        expression = expression.replace(" ", "")  # Remove spaces
+        tokens = re.findall(r"(\d+\.?\d*)|([+\-*/])", expression)
+        tokens = [token for group in tokens for token in group if token]
         return self._evaluate_infix(tokens)
 
     def _evaluate_infix(self, tokens):
@@ -59,3 +63,13 @@ class Calculator:
         b = values.pop()
         a = values.pop()
         values.append(self.operators[operator](a, b))
+
+
+if __name__ == '__main__':
+    calculator = Calculator()
+    expression = "3+7*2"
+    result = calculator.evaluate(expression)
+    print(f'{expression} = {result}')
+    expression2 = "3 + 7 * 2"
+    result2 = calculator.evaluate(expression2)
+    print(f'{expression2} = {result2}')
